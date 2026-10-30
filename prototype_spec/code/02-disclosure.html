@@ -1,0 +1,56 @@
+<!--
+  02 DISCLOSURE WITH aria-expanded (annotated)
+  Source: index.html (More filters, My schedule on phones, Prototype controls)
+          assets/js/app.js  wireDisclosure()
+-->
+
+<!-- [A] A real <button>, so Enter and Space work for free.
+         aria-expanded tells screen readers the current state.
+         aria-controls points at the panel it opens. -->
+<button type="button" id="filters-toggle" class="disclosure__toggle"
+        aria-expanded="false" aria-controls="filters-panel">
+  <span class="disclosure__chevron" aria-hidden="true"></span>
+  <span>More filters</span>
+  <!-- [B] Shows how many filters are on while the panel is closed,
+           so users don't forget a hidden filter is narrowing results. -->
+  <span id="filters-count" class="disclosure__count">(1 on)</span>
+</button>
+
+<!-- [C] hidden removes the panel from the page AND the accessibility tree.
+         CSS display:none alone would also work, but hidden keeps state in HTML. -->
+<div id="filters-panel" hidden>
+  <div class="check-row">
+    <input type="checkbox" id="open-only">
+    <label for="open-only">Only show sections with open seats</label>
+  </div>
+  <fieldset id="delivery-group" aria-describedby="delivery-error">
+    <legend>Delivery</legend>
+    …
+    <p id="delivery-error" class="field-error" hidden></p>
+  </fieldset>
+</div>
+
+<script>
+  // [D] One function drives every disclosure in the prototype.
+  function wireDisclosure(toggle, panel, onChange) {
+    toggle.addEventListener("click", () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open)); // state first
+      panel.hidden = open;                                  // then visibility
+      onChange && onChange(!open);
+    });
+  }
+
+  // [E] Errors never hide inside a closed panel: validation opens it.
+  if (!deliveries.length) {
+    const t = document.querySelector("#filters-toggle");
+    if (t.getAttribute("aria-expanded") === "false") t.click();
+  }
+</script>
+
+<style>
+  /* [F] The chevron's rotation is driven by the ARIA attribute itself,
+         so the visual and the programmatic state can never disagree. */
+  .disclosure__chevron { transform: rotate(-45deg); transition: transform 150ms ease; }
+  [aria-expanded="true"] > .disclosure__chevron { transform: rotate(45deg); }
+</style>

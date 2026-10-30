@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Choose a term | Register for Classes prototype</title>
+  <meta name="description" content="Interactive concept prototype of an accessible class registration flow: choose a term, find sections, review, and register.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="brand">
+        <span class="brand__school">Weber State University</span>
+        <span class="brand__app">Register for Classes</span>
+      </p>
+      <p class="proto-flag">Concept prototype with sample data. Nothing is actually submitted.</p>
+    </div>
+  </header>
+
+  <nav class="progress" aria-label="Registration progress">
+    <ol class="progress__list">
+      <li class="progress__step" data-step="term" aria-current="step">
+        <span class="progress__num" aria-hidden="true">1</span>
+        <span class="progress__label">Choose term</span>
+      </li>
+      <li class="progress__step" data-step="search">
+        <span class="progress__num" aria-hidden="true">2</span>
+        <span class="progress__label">Find classes</span>
+      </li>
+      <li class="progress__step" data-step="review">
+        <span class="progress__num" aria-hidden="true">3</span>
+        <span class="progress__label">Review and register</span>
+      </li>
+      <li class="progress__step" data-step="done">
+        <span class="progress__num" aria-hidden="true">4</span>
+        <span class="progress__label">Results</span>
+      </li>
+    </ol>
+  </nav>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ============ STEP 1: TERM ============ -->
+    <section id="step-term" class="step" aria-labelledby="h-term">
+      <div class="step__intro">
+        <h1 id="h-term" tabindex="-1">Choose a term</h1>
+        <p class="lede">Pick the semester you want to register for. Terms that aren't open yet tell you when they open.</p>
+      </div>
+
+      <form id="term-form" class="term-form" novalidate>
+        <fieldset class="term-options" aria-describedby="term-error">
+          <legend class="visually-hidden">Term</legend>
+          <div id="term-list" class="term-list"><!-- rendered by app.js --></div>
+          <p id="term-error" class="field-error" hidden></p>
+        </fieldset>
+        <div class="actions">
+          <button type="submit" class="btn btn--primary">Continue to class search</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ STEP 2: SEARCH ============ -->
+    <section id="step-search" class="step" aria-labelledby="h-search" hidden>
+      <div class="step__intro">
+        <h1 id="h-search" tabindex="-1">Find classes for <span data-term-name>Spring 2027</span></h1>
+        <p class="lede">Search by subject, add the sections you want, then review your schedule.</p>
+      </div>
+
+      <div class="search-layout">
+        <div class="search-main">
+          <form id="search-form" class="search-form" role="search" aria-label="Class search" novalidate>
+            <div class="search-form__fields">
+              <div class="field">
+                <label for="subject" class="field__label">Subject</label>
+                <select id="subject" name="subject" class="control" aria-describedby="subject-error">
+                  <option value="">Choose a subject</option>
+                  <option value="ALL">All subjects</option>
+                </select>
+                <p id="subject-error" class="field-error" hidden></p>
+              </div>
+
+              <div class="field">
+                <label for="course-number" class="field__label">Course number <span class="field__optional">(optional)</span></label>
+                <input id="course-number" name="courseNumber" class="control" type="text"
+                       inputmode="numeric" autocomplete="off" maxlength="4"
+                       aria-describedby="course-number-hint course-number-error">
+                <p id="course-number-hint" class="field__hint">4 digits, like 4110</p>
+                <p id="course-number-error" class="field-error" hidden></p>
+              </div>
+
+              <div class="search-form__submit">
+                <button type="submit" id="search-btn" class="btn btn--primary">
+                  <span class="btn__spinner" aria-hidden="true"></span>
+                  <span class="btn__label">Search classes</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="disclosure">
+              <button type="button" id="filters-toggle" class="disclosure__toggle"
+                      aria-expanded="false" aria-controls="filters-panel">
+                <span class="disclosure__chevron" aria-hidden="true"></span>
+                <span>More filters</span>
+                <span id="filters-count" class="disclosure__count"></span>
+              </button>
+              <div id="filters-panel" class="disclosure__panel" hidden>
+                <div class="check-row">
+                  <input type="checkbox" id="open-only" name="openOnly">
+                  <label for="open-only">Only show sections with open seats</label>
+                </div>
+                <fieldset id="delivery-group" class="check-group" aria-describedby="delivery-error">
+                  <legend>Delivery</legend>
+                  <div class="check-row">
+                    <input type="checkbox" id="del-inperson" name="delivery" value="In person" checked>
+                    <label for="del-inperson">In person</label>
+                  </div>
+                  <div class="check-row">
+                    <input type="checkbox" id="del-online" name="delivery" value="Online" checked>
+                    <label for="del-online">Online</label>
+                  </div>
+                  <div class="check-row">
+                    <input type="checkbox" id="del-hybrid" name="delivery" value="Hybrid" checked>
+                    <label for="del-hybrid">Hybrid</label>
+                  </div>
+                  <p id="delivery-error" class="field-error" hidden></p>
+                </fieldset>
+              </div>
+            </div>
+          </form>
+
+          <section class="results" aria-labelledby="h-results">
+            <h2 id="h-results" class="results__heading" tabindex="-1">Sections</h2>
+            <p id="results-status" class="results__status" aria-live="polite">Choose a subject and search to see sections.</p>
+            <div id="results" class="results__body" aria-busy="false"></div>
+          </section>
+        </div>
+
+        <aside id="cart" class="cart" aria-labelledby="h-cart">
+          <h2 id="h-cart" class="cart__heading">
+            <span class="cart__title-static">My schedule</span>
+            <button type="button" id="cart-toggle" class="cart__toggle"
+                    aria-expanded="false" aria-controls="cart-body">
+              <span class="cart__toggle-title">My schedule</span>
+              <span class="cart__toggle-sum" data-cart-summary>0 sections, 0 credits</span>
+              <span class="disclosure__chevron" aria-hidden="true"></span>
+            </button>
+          </h2>
+          <div id="cart-body" class="cart__body">
+            <p class="cart__summary" data-cart-summary>0 sections, 0 credits</p>
+            <ul id="cart-list" class="cart__list"></ul>
+            <p id="cart-empty" class="cart__empty">Your schedule is empty. Add sections from the search results.</p>
+            <div class="cart__actions">
+              <button type="button" id="review-btn" class="btn btn--primary btn--block"
+                      aria-disabled="true" aria-describedby="review-note">Review schedule</button>
+              <p id="review-note" class="action-note">Add at least one section to review.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ STEP 3: REVIEW ============ -->
+    <section id="step-review" class="step" aria-labelledby="h-review" hidden>
+      <div class="step__intro">
+        <h1 id="h-review" tabindex="-1">Review and register</h1>
+        <p class="lede">Check your sections and the week at a glance. Registering is final for each section that has a seat.</p>
+      </div>
+
+      <div class="review-layout">
+        <section class="review-list" aria-labelledby="h-review-list">
+          <h2 id="h-review-list">Sections to register</h2>
+          <ul id="review-items" class="review-items"></ul>
+          <p class="review-total"><span id="review-credits">0</span> credits total</p>
+        </section>
+
+        <section class="week" aria-labelledby="h-week">
+          <h2 id="h-week">Week at a glance</h2>
+          <p class="visually-hidden">This chart repeats the meeting times listed in Sections to register.</p>
+          <div id="week-grid" class="week__grid" aria-hidden="true"></div>
+          <p id="week-online" class="week__online"></p>
+        </section>
+      </div>
+
+      <form id="register-form" class="register-form" novalidate aria-busy="false">
+        <div class="check-row check-row--boxed" id="agree-row">
+          <input type="checkbox" id="agree" name="agree" aria-describedby="agree-error">
+          <label for="agree">I understand that registering adds tuition and fees for these sections to my student account.</label>
+        </div>
+        <p id="agree-error" class="field-error" hidden></p>
+
+        <div id="submit-status" class="submit-status" hidden>
+          <span class="submit-status__dot" aria-hidden="true"></span>
+          <span id="submit-status-text"></span>
+        </div>
+
+        <div class="actions actions--split">
+          <button type="button" id="back-to-search" class="btn btn--secondary">Back to search</button>
+          <button type="submit" id="register-btn" class="btn btn--primary">
+            <span class="btn__spinner" aria-hidden="true"></span>
+            <span class="btn__label">Register for 0 sections</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ STEP 4: RESULTS ============ -->
+    <section id="step-done" class="step" aria-labelledby="h-done" hidden>
+      <div class="step__intro">
+        <h1 id="h-done" tabindex="-1">Registration results</h1>
+        <p id="done-summary" class="lede"></p>
+      </div>
+      <ul id="done-list" class="done-list"></ul>
+      <div class="actions actions--split">
+        <button type="button" id="search-more" class="btn btn--secondary">Search for more classes</button>
+        <button type="button" id="start-over" class="btn btn--ghost">Start over</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global live regions: present (and empty) at page load so screen readers register them -->
+  <div id="sr-polite" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  <div id="sr-assertive" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HCI Case Study 2 concept prototype by Kaden Donaldson. Not affiliated with or endorsed by Weber State University. <a href="states.html">Component state gallery</a></p>
+
+      <div class="disclosure disclosure--footer">
+        <button type="button" id="lab-toggle" class="disclosure__toggle"
+                aria-expanded="false" aria-controls="lab-panel">
+          <span class="disclosure__chevron" aria-hidden="true"></span>
+          <span>Prototype controls</span>
+        </button>
+        <div id="lab-panel" class="disclosure__panel lab" hidden>
+          <p class="lab__note">For reviewers: change these to see loading, error, and recovery states.</p>
+          <div class="field">
+            <label for="lab-speed" class="field__label">Simulated network</label>
+            <select id="lab-speed" class="control">
+              <option value="normal">Normal (about 1 to 2.5 seconds)</option>
+              <option value="slow">Slow (about 3 to 8 seconds)</option>
+            </select>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="lab-race" checked>
+            <label for="lab-race">Another student takes the last seat while you register</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" id="lab-searchfail">
+            <label for="lab-searchfail">Class search fails to load</label>
+          </div>
+          <p class="lab__stat">Register requests sent this session: <strong id="lab-requests">0</strong></p>
+          <button type="button" id="lab-reset" class="btn btn--secondary">Reset prototype</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

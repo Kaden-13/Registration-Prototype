@@ -1,0 +1,106 @@
+<!--
+  01 PAGE STRUCTURE (annotated)
+  Source: index.html
+  One <main>, one <h1> per visible step, real landmarks, no positive tabindex.
+-->
+
+<!-- [A] First Tab stop. Hidden until focused, then jumps past header and progress. -->
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- [B] Banner landmark. The app name is text, not an image. -->
+<header class="site-header"> … </header>
+
+<!-- [C] Progress is a <nav> with an ordered list because the steps ARE a sequence.
+         aria-current="step" moves with the user; numbers are aria-hidden because
+         the <ol> already gives "1 of 4" to screen readers. -->
+<nav class="progress" aria-label="Registration progress">
+  <ol class="progress__list">
+    <li class="progress__step" aria-current="step">
+      <span class="progress__num" aria-hidden="true">1</span>
+      <span class="progress__label">Choose term</span>
+    </li>
+    <li class="progress__step">…Find classes</li>
+    <li class="progress__step">…Review and register</li>
+    <li class="progress__step">…Results</li>
+  </ol>
+</nav>
+
+<!-- [D] tabindex="-1" lets the skip link and step changes move focus here
+         without adding <main> to the Tab order. -->
+<main id="main" tabindex="-1">
+
+  <!-- [E] Each step is a <section> named by its own heading. Only one is visible;
+           the others carry the hidden attribute so they leave the accessibility tree. -->
+  <section id="step-term" aria-labelledby="h-term">
+    <h1 id="h-term" tabindex="-1">Choose a term</h1>
+    <form id="term-form" novalidate>
+      <!-- [F] Native radios inside a fieldset. The legend names the group.
+               Closed terms are disabled natives, and their reason is linked by
+               aria-describedby so it is read in browse mode. -->
+      <fieldset aria-describedby="term-error">
+        <legend class="visually-hidden">Term</legend>
+        <input type="radio" name="term" id="term-2027SP" value="2027SP"
+               aria-describedby="term-2027SP-note">
+        <label for="term-2027SP">Spring 2027 … <span id="term-2027SP-note">Registration is open…</span></label>
+        <input type="radio" name="term" id="term-2027SU" disabled
+               aria-describedby="term-2027SU-note">
+        <label for="term-2027SU">Summer 2027 … <span id="term-2027SU-note">Registration opens March 15, 2027.</span></label>
+        <p id="term-error" class="field-error" hidden></p>
+      </fieldset>
+      <button type="submit" class="btn btn--primary">Continue to class search</button>
+    </form>
+  </section>
+
+  <section id="step-search" aria-labelledby="h-search" hidden>
+    <h1 id="h-search" tabindex="-1">Find classes for Spring 2027</h1>
+
+    <!-- [G] role="search" turns the form into a search landmark. -->
+    <form id="search-form" role="search" aria-label="Class search" novalidate>
+      <label for="subject">Subject</label>
+      <select id="subject" aria-describedby="subject-error">…</select>
+      <p id="subject-error" class="field-error" hidden></p>
+
+      <label for="course-number">Course number (optional)</label>
+      <input id="course-number" type="text" inputmode="numeric" maxlength="4"
+             aria-describedby="course-number-hint course-number-error">
+      <p id="course-number-hint">4 digits, like 4110</p>
+      <p id="course-number-error" class="field-error" hidden></p>
+
+      <button type="submit" id="search-btn">Search classes</button>
+      <!-- disclosure: see 02-disclosure.html -->
+    </form>
+
+    <!-- [H] Results region: status line is a polite live region; the list gets
+             aria-busy while loading so readers don't announce half-built content. -->
+    <section aria-labelledby="h-results">
+      <h2 id="h-results" tabindex="-1">Sections</h2>
+      <p id="results-status" aria-live="polite">Choose a subject and search to see sections.</p>
+      <div id="results" aria-busy="false">
+        <ul class="result-list">
+          <!-- [I] Each card is an <article> named by its course heading.
+                   Details use a <dl> so "When", "Where" pair with their values. -->
+          <li><article aria-labelledby="CS4110-002-title">
+            <h3 id="CS4110-002-title">CS 4110 <span>Section 002</span></h3>
+            <dl><div><dt>When</dt><dd>Tue Thu, 1:30 to 3:20 PM</dd></div> …</dl>
+            <span class="seat-strip" aria-hidden="true">…</span>
+            <p class="seat-text" id="CS4110-002-seats">6 of 30 seats open</p>
+            <button type="button" class="btn btn--add">Add<span class="visually-hidden"> CS 4110 section 002 to my schedule</span></button>
+          </article></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- [J] Complementary landmark for the running schedule. -->
+    <aside id="cart" aria-labelledby="h-cart"> … </aside>
+  </section>
+
+  <section id="step-review" aria-labelledby="h-review" hidden> … </section>
+  <section id="step-done" aria-labelledby="h-done" hidden> … </section>
+</main>
+
+<!-- [K] Two global live regions, empty at load so assistive tech registers them
+         before the first message. See 03-live-regions.js. -->
+<div id="sr-polite" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+<div id="sr-assertive" class="visually-hidden" aria-live="assertive" aria-atomic="true"></div>
+
+<footer class="site-footer"> … </footer>

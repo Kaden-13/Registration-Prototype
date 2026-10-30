@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Component state gallery | Register for Classes prototype</title>
+  <meta name="description" content="Every interactive component in the registration prototype shown in each state: default, hover, focus, active, disabled, loading, and error.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .gallery-intro { max-width: 68ch; margin-bottom: 32px; }
+    .gallery-intro p + p { margin-top: 10px; }
+    .comp { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; margin-bottom: 28px; }
+    .comp > h2 { margin-bottom: 4px; }
+    .comp__desc { color: var(--ink-soft); margin-bottom: 20px; max-width: 75ch; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+    .tile { border: 1px dashed var(--line); border-radius: var(--radius-sm); padding: 16px; display: grid; gap: 12px; align-content: start; background: #fcfcfd; }
+    .tile__stage { min-height: 64px; display: grid; align-content: center; gap: 8px; }
+    .tile__name { font-weight: 700; }
+    .tile__code { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+    .tile__code code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; color: var(--ink); background: var(--plum-tint); padding: 1px 4px; border-radius: 4px; }
+    .tile--na .tile__stage { color: var(--ink-soft); font-style: italic; font-size: var(--fs-sm); }
+    .tile .section-card { padding: 14px; }
+    .tile .section-card article { grid-template-columns: 1fr; grid-template-areas: "head" "name" "seats" "action"; }
+    .tile .section-card__meta { display: none; }
+    .tile .seat { width: 4px; }
+    .wide { grid-column: span 2; }
+    .tile .term-card label { grid-template-columns: 1fr; }
+    @media (max-width: 640px) { .wide { grid-column: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="brand">
+        <span class="brand__school">Weber State University</span>
+        <span class="brand__app">Register for Classes</span>
+      </p>
+      <p class="proto-flag"><a href="index.html" style="color:inherit">Back to the prototype</a></p>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="gallery-intro">
+      <h1>Component state gallery</h1>
+      <p class="lede">Each interactive component in the registration flow, shown in all seven specified states.</p>
+      <p>Hover, focus, and active are forced here with helper classes so they can be compared side by side. In the live prototype they come from <code>:hover</code>, <code>:focus-visible</code>, and <code>:active</code>. A state marked not applicable explains why and where the equivalent feedback lives.</p>
+    </div>
+
+    <!-- 1. PRIMARY BUTTON -->
+    <section class="comp" id="comp-primary" aria-labelledby="g-primary">
+      <h2 id="g-primary">Primary button</h2>
+      <p class="comp__desc">Used for Search classes, Continue, Review schedule, and Register. One per screen region.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary" type="button">Search classes</button></div>
+          <p class="tile__name">Default</p><p class="tile__code">Plum #4C2A85, white text, 48px tall</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary is-hover" type="button">Search classes</button></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Darker #3D2070 plus 2px bottom edge</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary is-focus" type="button">Search classes</button></div>
+          <p class="tile__name">Focus</p><p class="tile__code">3px ink outline, 3px offset, <code>:focus-visible</code></p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary is-active" type="button">Search classes</button></div>
+          <p class="tile__name">Active</p><p class="tile__code">#2C1554, inset shadow, moves down 1px</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary" type="button" aria-disabled="true" aria-describedby="g-rev-note">Review schedule</button>
+          <p class="action-note" id="g-rev-note">Add at least one section to review.</p></div>
+          <p class="tile__name">Disabled</p><p class="tile__code"><code>aria-disabled="true"</code> stays focusable; reason linked by <code>aria-describedby</code></p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary is-loading" type="button" aria-disabled="true"><span class="btn__spinner" aria-hidden="true"></span><span class="btn__label">Registering…</span></button></div>
+          <p class="tile__name">Loading</p><p class="tile__code">Label changes in the same frame as the click; spinner; repeat clicks ignored</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--primary is-error" type="button">Register for 3 sections</button>
+          <p class="field-error"><span class="field-error__icon" aria-hidden="true">!</span>Check the box to confirm you understand the charges.</p></div>
+          <p class="tile__name">Error</p><p class="tile__code">Error is placed on the field that caused it; focus moves there; <code>aria-live="assertive"</code></p></div>
+      </div>
+    </section>
+
+    <!-- 2. ADD SECTION BUTTON -->
+    <section class="comp" id="comp-add" aria-labelledby="g-add">
+      <h2 id="g-add">Add section button</h2>
+      <p class="comp__desc">One per result card. Accessible name includes the course and section, for example "Add CS 4110 section 002 to my schedule".</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><button class="btn btn--add" type="button">Add</button></div>
+          <p class="tile__name">Default</p><p class="tile__code">Outlined plum, 2px border</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--add is-hover" type="button">Add</button></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Fills plum so the target under the pointer is obvious</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--add is-focus" type="button">Add</button></div>
+          <p class="tile__name">Focus</p><p class="tile__code">3px ink outline; reachable with Tab (fixes the audit finding where Add was skipped)</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--add is-active" type="button">Add</button></div>
+          <p class="tile__name">Active</p><p class="tile__code">#2C1554 fill, 1px press</p></div>
+        <div class="tile"><div class="tile__stage"><button class="btn btn--add" type="button" aria-disabled="true">Add</button>
+          <p class="action-note">Full. Seats open up when students drop.</p></div>
+          <p class="tile__name">Disabled (full)</p><p class="tile__code">Dashed border and × icon, so it isn't color alone; clicking reads the reason aloud</p></div>
+        <div class="tile tile--na"><div class="tile__stage">Not applicable. Adding to the schedule is a local update that finishes in under 100 ms, so no spinner is shown.</div>
+          <p class="tile__name">Loading</p><p class="tile__code">Confirmation is the live region message and the card's "In my schedule" badge</p></div>
+        <div class="tile wide"><div class="tile__stage"><button class="btn btn--add is-error" type="button">Add</button>
+          <div class="inline-alert inline-alert--error"><p>CS 3100 section 001 overlaps CS 4110 section 001 (Mon Wed, 9:00 to 10:50 AM). Remove CS 4110 001 first, or choose a section at another time.</p>
+            <button type="button" class="btn btn--secondary btn--small">Swap CS 4110 001 for CS 3100 001</button></div></div>
+          <p class="tile__name">Error (time conflict)</p><p class="tile__code">Inline alert says what happened and offers a one-step fix; announced with <code>aria-live="assertive"</code></p></div>
+      </div>
+    </section>
+
+    <!-- 3. TEXT INPUT -->
+    <section class="comp" id="comp-input" aria-labelledby="g-input">
+      <h2 id="g-input">Text input (course number)</h2>
+      <p class="comp__desc">Numeric keyboard on phones through <code>inputmode="numeric"</code>. Hint and error both connected with <code>aria-describedby</code>.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><input class="control" type="text" aria-label="Course number, default"></div>
+          <p class="tile__name">Default</p><p class="tile__code">2px #6F6985 border (5.2:1 against white)</p></div>
+        <div class="tile"><div class="tile__stage"><input class="control is-hover" type="text" aria-label="Course number, hover"></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Border darkens to ink</p></div>
+        <div class="tile"><div class="tile__stage"><input class="control is-focus" type="text" value="41" aria-label="Course number, focus"></div>
+          <p class="tile__name">Focus</p><p class="tile__code">3px outline plus plum border</p></div>
+        <div class="tile"><div class="tile__stage"><input class="control is-active" type="text" value="4110" aria-label="Course number, active"></div>
+          <p class="tile__name">Active</p><p class="tile__code">Light plum fill while pressed</p></div>
+        <div class="tile"><div class="tile__stage"><input class="control" type="text" disabled value="4110" aria-label="Course number, disabled"></div>
+          <p class="tile__name">Disabled</p><p class="tile__code">Native <code>disabled</code>, dashed border; only used while a search is running</p></div>
+        <div class="tile tile--na"><div class="tile__stage">Not applicable. The field never waits on the server.</div>
+          <p class="tile__name">Loading</p><p class="tile__code">Search progress is shown on the button and in the results area</p></div>
+        <div class="tile"><div class="tile__stage"><input class="control" type="text" value="411" aria-invalid="true" aria-label="Course number, error">
+          <p class="field-error"><span class="field-error__icon" aria-hidden="true">!</span>Enter a 4-digit course number, like 4110, or leave it blank.</p></div>
+          <p class="tile__name">Error</p><p class="tile__code"><code>aria-invalid="true"</code>, red border, icon plus text, focus moves here</p></div>
+      </div>
+    </section>
+
+    <!-- 4. SELECT -->
+    <section class="comp" id="comp-select" aria-labelledby="g-select">
+      <h2 id="g-select">Select (subject)</h2>
+      <p class="comp__desc">Native <code>&lt;select&gt;</code> so screen readers, voice control, and phone pickers all work without extra code.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><select class="control" aria-label="Subject, default"><option>Choose a subject</option></select></div>
+          <p class="tile__name">Default</p><p class="tile__code">Same field styling as text input</p></div>
+        <div class="tile"><div class="tile__stage"><select class="control is-hover" aria-label="Subject, hover"><option>Choose a subject</option></select></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Border darkens to ink</p></div>
+        <div class="tile"><div class="tile__stage"><select class="control is-focus" aria-label="Subject, focus"><option>Computer Science (CS)</option></select></div>
+          <p class="tile__name">Focus</p><p class="tile__code">3px outline plus plum border</p></div>
+        <div class="tile"><div class="tile__stage"><select class="control is-active" aria-label="Subject, active"><option>Computer Science (CS)</option></select></div>
+          <p class="tile__name">Active</p><p class="tile__code">Light plum fill while the list opens</p></div>
+        <div class="tile"><div class="tile__stage"><select class="control" disabled aria-label="Subject, disabled"><option>Computer Science (CS)</option></select></div>
+          <p class="tile__name">Disabled</p><p class="tile__code">Native <code>disabled</code>, dashed border</p></div>
+        <div class="tile"><div class="tile__stage"><select class="control is-loading" aria-busy="true" aria-label="Subject, loading"><option>Loading subjects…</option></select></div>
+          <p class="tile__name">Loading</p><p class="tile__code">Shimmer and <code>aria-busy="true"</code> if the subject list is fetched from the server</p></div>
+        <div class="tile"><div class="tile__stage"><select class="control" aria-invalid="true" aria-label="Subject, error"><option>Choose a subject</option></select>
+          <p class="field-error"><span class="field-error__icon" aria-hidden="true">!</span>Choose a subject, or pick All subjects to see everything.</p></div>
+          <p class="tile__name">Error</p><p class="tile__code">Shown when Search is pressed with nothing selected</p></div>
+      </div>
+    </section>
+
+    <!-- 5. CHECKBOX ROW -->
+    <section class="comp" id="comp-check" aria-labelledby="g-check">
+      <h2 id="g-check">Checkbox row</h2>
+      <p class="comp__desc">Native checkbox inside a 48px tall row. The whole label is the click and tap target, not just the 22px box.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><div class="check-row"><input type="checkbox" id="g-c1"><label for="g-c1">Only open seats</label></div></div>
+          <p class="tile__name">Default</p><p class="tile__code"><code>accent-color</code> plum</p></div>
+        <div class="tile"><div class="tile__stage"><div class="check-row is-hover"><input type="checkbox" id="g-c2"><label for="g-c2">Only open seats</label></div></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Row tints plum to show the full target</p></div>
+        <div class="tile"><div class="tile__stage"><div class="check-row is-focus"><input type="checkbox" id="g-c3"><label for="g-c3">Only open seats</label></div></div>
+          <p class="tile__name">Focus</p><p class="tile__code">Outline drawn around the whole row with <code>:has(input:focus-visible)</code></p></div>
+        <div class="tile"><div class="tile__stage"><div class="check-row is-active"><input type="checkbox" id="g-c4" checked><label for="g-c4">Only open seats</label></div></div>
+          <p class="tile__name">Active</p><p class="tile__code">Deeper tint while pressed</p></div>
+        <div class="tile"><div class="tile__stage"><div class="check-row"><input type="checkbox" id="g-c5" disabled checked><label for="g-c5">I understand the charges</label></div></div>
+          <p class="tile__name">Disabled</p><p class="tile__code">Locked while registration is processing so the answer can't change mid-request</p></div>
+        <div class="tile tile--na"><div class="tile__stage">Not applicable. Toggling is instant and local.</div>
+          <p class="tile__name">Loading</p><p class="tile__code">During submit the parent form gets <code>aria-busy="true"</code></p></div>
+        <div class="tile"><div class="tile__stage"><div class="check-row check-row--boxed"><input type="checkbox" id="g-c7" aria-invalid="true"><label for="g-c7">I understand the charges</label></div>
+          <p class="field-error"><span class="field-error__icon" aria-hidden="true">!</span>Check the box to confirm, then select Register again.</p></div>
+          <p class="tile__name">Error</p><p class="tile__code">Red bar on the row edge plus message, not color alone</p></div>
+      </div>
+    </section>
+
+    <!-- 6. DISCLOSURE -->
+    <section class="comp" id="comp-disclosure" aria-labelledby="g-disc">
+      <h2 id="g-disc">Disclosure toggle (More filters, My schedule on phones)</h2>
+      <p class="comp__desc">A real <code>&lt;button&gt;</code> with <code>aria-expanded</code> and <code>aria-controls</code>. The chevron turns to match the state.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><button type="button" class="disclosure__toggle" aria-expanded="false"><span class="disclosure__chevron" aria-hidden="true"></span><span>More filters</span></button></div>
+          <p class="tile__name">Default (collapsed)</p><p class="tile__code"><code>aria-expanded="false"</code>, panel <code>hidden</code></p></div>
+        <div class="tile"><div class="tile__stage"><button type="button" class="disclosure__toggle is-hover" aria-expanded="false"><span class="disclosure__chevron" aria-hidden="true"></span><span>More filters</span></button></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Plum tint fills the 48px target</p></div>
+        <div class="tile"><div class="tile__stage"><button type="button" class="disclosure__toggle is-focus" aria-expanded="false"><span class="disclosure__chevron" aria-hidden="true"></span><span>More filters</span></button></div>
+          <p class="tile__name">Focus</p><p class="tile__code">3px ink outline</p></div>
+        <div class="tile"><div class="tile__stage"><button type="button" class="disclosure__toggle is-active" aria-expanded="true"><span class="disclosure__chevron" aria-hidden="true"></span><span>More filters</span> <span class="disclosure__count">(1 on)</span></button></div>
+          <p class="tile__name">Active / expanded</p><p class="tile__code"><code>aria-expanded="true"</code>, chevron down, active filter count shown</p></div>
+        <div class="tile"><div class="tile__stage"><button type="button" class="disclosure__toggle" disabled aria-expanded="false"><span class="disclosure__chevron" aria-hidden="true"></span><span>More filters</span></button></div>
+          <p class="tile__name">Disabled</p><p class="tile__code">Native <code>disabled</code> while a search is running</p></div>
+        <div class="tile tile--na"><div class="tile__stage">Not applicable. Opening the panel is instant.</div>
+          <p class="tile__name">Loading</p><p class="tile__code">No server call</p></div>
+        <div class="tile"><div class="tile__stage"><button type="button" class="disclosure__toggle" aria-expanded="true"><span class="disclosure__chevron" aria-hidden="true"></span><span>More filters</span></button>
+          <p class="field-error"><span class="field-error__icon" aria-hidden="true">!</span>Pick at least one delivery type.</p></div>
+          <p class="tile__name">Error</p><p class="tile__code">If an error is inside a collapsed panel, the panel opens itself so the error is never hidden</p></div>
+      </div>
+    </section>
+
+    <!-- 7. TERM CARD -->
+    <section class="comp" id="comp-term" aria-labelledby="g-term">
+      <h2 id="g-term">Term option (radio card)</h2>
+      <p class="comp__desc">Native radio inside a large label card. Arrow keys move between terms; closed terms are skipped by the keyboard but still read in browse mode with their opening date.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><div class="term-card"><input type="radio" name="g-t" id="g-t1"><label for="g-t1"><span class="term-card__name">Spring 2027</span><span class="term-card__status is-open">Open</span></label></div></div>
+          <p class="tile__name">Default</p><p class="tile__code">72px tall card</p></div>
+        <div class="tile"><div class="tile__stage"><div class="term-card is-hover"><input type="radio" name="g-t" id="g-t2"><label for="g-t2"><span class="term-card__name">Spring 2027</span><span class="term-card__status is-open">Open</span></label></div></div>
+          <p class="tile__name">Hover</p><p class="tile__code">Plum border and tint</p></div>
+        <div class="tile"><div class="tile__stage"><div class="term-card is-focus"><input type="radio" name="g-t" id="g-t3"><label for="g-t3"><span class="term-card__name">Spring 2027</span><span class="term-card__status is-open">Open</span></label></div></div>
+          <p class="tile__name">Focus</p><p class="tile__code">Outline drawn around the card</p></div>
+        <div class="tile"><div class="tile__stage"><div class="term-card is-checked is-active"><input type="radio" name="g-t" id="g-t4" checked><label for="g-t4"><span class="term-card__name">Spring 2027</span><span class="term-card__status is-open">Open</span></label></div></div>
+          <p class="tile__name">Active / selected</p><p class="tile__code">Double plum border plus filled radio</p></div>
+        <div class="tile"><div class="tile__stage"><div class="term-card is-disabled"><input type="radio" name="g-t" id="g-t5" disabled><label for="g-t5"><span class="term-card__name">Summer 2027</span><span class="term-card__status is-closed">Not open</span><span class="term-card__note">Registration opens March 15, 2027.</span></label></div></div>
+          <p class="tile__name">Disabled</p><p class="tile__code">Dashed border, "Not open" text, and the date it opens</p></div>
+        <div class="tile tile--na"><div class="tile__stage">Not applicable. Terms load with the page.</div>
+          <p class="tile__name">Loading</p><p class="tile__code">No server call in this step</p></div>
+        <div class="tile"><div class="tile__stage"><div class="term-card is-error"><input type="radio" name="g-t" id="g-t7"><label for="g-t7"><span class="term-card__name">Spring 2027</span><span class="term-card__status is-open">Open</span></label></div>
+          <p class="field-error"><span class="field-error__icon" aria-hidden="true">!</span>Choose a term to continue.</p></div>
+          <p class="tile__name">Error</p><p class="tile__code">Focus moves to the first open term</p></div>
+      </div>
+    </section>
+
+    <!-- 8. RESULT AREA -->
+    <section class="comp" id="comp-results" aria-labelledby="g-results">
+      <h2 id="g-results">Section card and results area</h2>
+      <p class="comp__desc">The seat strip draws one cell per seat. Green cells are open seats. The text beside it carries the same meaning for anyone who can't see color.</p>
+      <div class="tiles">
+        <div class="tile"><div class="tile__stage"><div class="section-card"><article><div class="section-card__head"><h3 class="section-card__title"><span class="section-card__code">CS 4110</span><span class="section-card__sec">002</span></h3></div><p class="section-card__name">Formal Languages</p><div class="section-card__seats is-open"><span class="seat-strip" aria-hidden="true">
+          <span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--taken"></span><span class="seat seat--open"></span><span class="seat seat--open"></span><span class="seat seat--open"></span><span class="seat seat--open"></span><span class="seat seat--open"></span><span class="seat seat--open"></span></span><p class="seat-text">6 of 30 seats open</p></div></article></div></div>
+          <p class="tile__name">Default (open seats)</p><p class="tile__code">Green #1D6E4C text, 6.2:1</p></div>
+        <div class="tile"><div class="tile__stage"><div class="section-card is-added"><article><div class="section-card__head"><h3 class="section-card__title"><span class="section-card__code">CS 2810</span><span class="section-card__sec">001</span></h3><span class="badge badge--added">In my schedule</span></div><p class="section-card__name">Computer Organization</p></article></div></div>
+          <p class="tile__name">Added</p><p class="tile__code">Plum edge bar and badge; Add button becomes Remove</p></div>
+        <div class="tile"><div class="tile__stage"><div class="section-card"><article><div class="section-card__head"><h3 class="section-card__title"><span class="section-card__code">CS 4110</span><span class="section-card__sec">001</span></h3></div><div class="section-card__seats is-low"><p class="seat-text">1 seat left of 30</p></div></article></div></div>
+          <p class="tile__name">Low seats</p><p class="tile__code">Amber #8A4B00 text at 3 or fewer seats</p></div>
+        <div class="tile"><div class="tile__stage"><div class="section-card is-full"><article><div class="section-card__head"><h3 class="section-card__title"><span class="section-card__code">CS 2420</span><span class="section-card__sec">001</span></h3></div><div class="section-card__seats is-full"><p class="seat-text">Full. All 32 seats taken</p></div></article></div></div>
+          <p class="tile__name">Disabled (full)</p><p class="tile__code">Red text; Add button uses its disabled state</p></div>
+        <div class="tile"><div class="tile__stage"><ul class="result-list" style="list-style:none;margin:0;padding:0"><li class="section-card section-card--skeleton"><span class="sk sk--title"></span><span class="sk sk--line"></span><span class="sk sk--btn"></span></li></ul></div>
+          <p class="tile__name">Loading</p><p class="tile__code">Skeletons only after 100 ms; list gets <code>aria-busy="true"</code>; status line announces politely</p></div>
+        <div class="tile wide"><div class="tile__stage"><div class="alert alert--error"><p class="alert__title">Sections didn't load</p><p>The class search service didn't respond. Your schedule is safe. Check your connection, then try again.</p><button type="button" class="btn btn--secondary">Try again</button></div></div>
+          <p class="tile__name">Error</p><p class="tile__code"><code>role="alert"</code>, says what failed and that nothing was lost, one retry action</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>HCI Case Study 2 concept prototype by Kaden Donaldson. Not affiliated with or endorsed by Weber State University. <a href="index.html">Back to the prototype</a></p>
+    </div>
+  </footer>
+</body>
+</html>

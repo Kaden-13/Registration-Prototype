@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> Idle
+  Idle --> Invalid: Register pressed, box unchecked
+  Invalid --> Idle: Box checked (error clears)
+  Idle --> Submitting: Register pressed, valid
+  Submitting --> Submitting: Repeat click or Enter (ignored, polite reminder)
+  Submitting --> StillWorking: 3 s elapsed
+  StillWorking --> Results: Response
+  Submitting --> Results: Response
+  Results --> AllRegistered: every section has a seat
+  Results --> NeedsAttention: one or more seats lost
+  NeedsAttention --> Recovering: Register for alternative
+  Recovering --> AllRegistered: Response
+  AllRegistered --> [*]

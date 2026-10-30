@@ -1,0 +1,28 @@
+flowchart TD
+  A([Start: Register for Classes]) --> B[Step 1: Choose term]
+  B -->|Continue with no term| B1[/Inline error: choose a term. Focus moves to first open term/]
+  B1 --> B
+  B -->|Spring 2027 selected| C[Step 2: Find classes]
+  C -->|Search with no subject or bad course number| C1[/Inline field errors. aria-invalid. Assertive announcement/]
+  C1 --> C
+  C -->|Valid search| D{{Loading: button says Searching. Skeletons after 100 ms. aria-busy}}
+  D -->|Service fails| D1[/Error alert with Try again/]
+  D1 --> D
+  D -->|No matches| D2[/Empty state with Clear filters/]
+  D -->|Sections returned| E[Result cards with seat strip]
+  E -->|Add open section| F[Added to My schedule. Polite announcement]
+  E -->|Add full section| E1[/Disabled reason read aloud/]
+  E -->|Add overlapping section| E2[/Conflict alert with one step Swap/]
+  E2 --> F
+  F --> E
+  F -->|Review schedule| G[Step 3: Review and register]
+  G -->|Register without confirming charges| G1[/Inline error on checkbox/]
+  G1 --> G
+  G -->|Register| H{{Submitting: Registering. Controls locked. Repeat clicks ignored}}
+  H -->|Over 3 seconds| H1{{Still working message}}
+  H1 --> I
+  H --> I[Step 4: Results]
+  I -->|All registered| J([Done])
+  I -->|A seat was taken mid request| K[/Not registered row with sections that still fit/]
+  K -->|Register for alternative| L{{Button loading}}
+  L --> J

@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> Empty: page shows prompt to search
+  Empty --> Validating: Search pressed
+  Validating --> FieldErrors: missing subject or bad course number
+  FieldErrors --> Validating: Search pressed again
+  Validating --> Waiting: valid query
+  Waiting --> Skeletons: still waiting after 100 ms
+  Waiting --> Results: response under 100 ms
+  Skeletons --> Results: sections found
+  Skeletons --> NoMatches: zero sections
+  Skeletons --> LoadError: service failed
+  LoadError --> Waiting: Try again
+  NoMatches --> Waiting: Clear filters
+  Results --> Results: Add or Remove (instant, announced)
